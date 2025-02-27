@@ -1,12 +1,11 @@
 import React, { useState, useEffect, DragEvent } from 'react';
-import CardArea from './CardArea';
-import AnswerSpace from './AnswerSpace';
-import ProblemSettings from './ProblemSettings';
-import Feedback from './Feedback';
-import HelpModal from './HelpModal';
-import { Card, ProblemType } from '../types';
-import useProblemGenerator from '../hooks/useProblemGenerator';
-import { validateAnswer } from '../utils/validationUtils';
+import CardArea from './CardArea/index.tsx';
+import AnswerSpace from './AnswerSpace/index.tsx';
+import ProblemSettings from './ProblemSettings/index.tsx';
+import Feedback from './Feedback/index.tsx';
+import HelpModal from './HelpModal/index.tsx';
+import useProblemGenerator from '../hooks/useProblemGenerator.ts';
+import { validateAnswer } from '../utils/validationUtils.ts';
 
 const MathProblemApp: React.FC = () => {
   // 問題設定

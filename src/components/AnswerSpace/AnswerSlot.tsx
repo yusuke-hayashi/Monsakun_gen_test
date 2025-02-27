@@ -1,6 +1,6 @@
 import React, { FC, DragEvent } from 'react';
-import { Card as CardType } from '../../types';
-import Card from '../CardArea/Card';
+import { Card as CardType } from '../../types/index.ts';
+import Card from '../CardArea/Card.tsx';
 
 interface AnswerSlotProps {
   slotIndex: number;

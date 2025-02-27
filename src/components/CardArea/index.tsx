@@ -1,6 +1,6 @@
 import React, { FC, DragEvent } from 'react';
-import Card from './Card';
-import { Card as CardType } from '../../types';
+import Card from './Card.tsx';
+import { Card as CardType } from '../../types/index.ts';
 
 interface CardAreaProps {
   cards: CardType[];

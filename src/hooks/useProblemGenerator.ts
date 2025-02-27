@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-import { Card, ProblemType } from '../types';
-import { getRandomItem, getItemsFromSameCategory, itemCategories } from '../utils/itemsData';
-import { shuffleArray, extractNumbersFromEquation, analyzeEquation } from '../utils/cardUtils';
+import { Card, ProblemType } from '../types/index.ts';
+import { getRandomItem, getItemsFromSameCategory, itemCategories } from '../utils/itemsData.ts';
+import { shuffleArray, extractNumbersFromEquation, analyzeEquation } from '../utils/cardUtils.ts';
 
 const useProblemGenerator = () => {
   const [availableCards, setAvailableCards] = useState<Card[]>([]);

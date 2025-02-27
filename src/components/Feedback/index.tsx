@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ValidationError } from '../../types';
+import { ValidationError } from '../../types/index.ts';
 
 interface FeedbackProps {
   feedback: string;

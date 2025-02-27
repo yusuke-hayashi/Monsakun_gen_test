@@ -1,5 +1,5 @@
 import React, { FC, DragEvent } from 'react';
-import { Card as CardType } from '../../types';
+import { Card as CardType } from '../../types/index.ts';
 
 interface CardProps {
   card: CardType;

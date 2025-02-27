@@ -1,4 +1,4 @@
-import { ItemCategories } from '../types';
+import { ItemCategories } from '../types/index.ts';
 
 // カテゴリ別のアイテムリスト
 export const itemCategories: ItemCategories = {

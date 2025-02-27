@@ -1,5 +1,5 @@
 import React from 'react';
-import MathProblemApp from './components/MathProblemApp';
+import MathProblemApp from './components/MathProblemApp.tsx';
 
 function App() {
   return (

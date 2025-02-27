@@ -1,5 +1,5 @@
-import { Card, ProblemType, ValidationError } from '../types';
-import { extractItemsFromCards } from './cardUtils';
+import { Card, ProblemType, ValidationError } from '../types/index.ts';
+import { extractItemsFromCards } from './cardUtils.ts';
 
 // 回答をチェックする関数
 export const validateAnswer = (

@@ -1,4 +1,4 @@
-import { Card } from '../types';
+import { Card } from '../types/index.ts';
 
 // カードをシャッフルする関数
 export const shuffleArray = <T>(array: T[]): T[] => {

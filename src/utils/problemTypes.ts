@@ -1,4 +1,4 @@
-import { ProblemType } from '../types';
+import { ProblemType } from '../types/index.ts';
 
 /**
  * 問題タイプの定義

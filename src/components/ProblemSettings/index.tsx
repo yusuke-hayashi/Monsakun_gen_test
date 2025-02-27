@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { ProblemType } from '../../types';
+import { ProblemType } from '../../types/index.ts';
 
 interface ProblemSettingsProps {
   problemType: ProblemType;

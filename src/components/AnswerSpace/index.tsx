@@ -1,6 +1,6 @@
 import React, { FC, DragEvent } from 'react';
-import AnswerSlot from './AnswerSlot';
-import { Card as CardType } from '../../types';
+import AnswerSlot from './AnswerSlot.tsx';
+import { Card as CardType } from '../../types/index.ts';
 
 interface AnswerSpaceProps {
   placedCards: (CardType | null)[];
