@@ -6,6 +6,7 @@ import Feedback from './Feedback/index.tsx';
 import HelpModal from './HelpModal/index.tsx';
 import useProblemGenerator from '../hooks/useProblemGenerator.ts';
 import { validateAnswer } from '../utils/validationUtils.ts';
+import { ProblemType, Card } from '../types/index.ts';
 
 const MathProblemApp: React.FC = () => {
   // 問題設定
@@ -185,73 +186,158 @@ const MathProblemApp: React.FC = () => {
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 via-purple-50 to-pink-100 py-6 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* 楽しいヘッダー */}
-        <div className="bg-gradient-to-r from-yellow-300 to-orange-400 rounded-2xl shadow-lg mb-6 overflow-hidden relative">
-          <div className="absolute right-0 top-0 h-full w-1/4">
-            <div className="absolute right-4 top-2">
-              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
-                <span className="text-4xl">🧮</span>
+    <div className="min-h-screen bg-gray-100 py-4 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* ヘッダー - 黄色からオレンジへのグラデーション */}
+        <div className="bg-gradient-to-r from-yellow-300 to-orange-400 rounded-xl shadow-lg mb-4 p-4 relative">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-white">モンサクン</h1>
+              <p className="text-white">算数の文章題を作ろう！</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-12 h-12 bg-white rounded-md flex items-center justify-center shadow">
+                <span className="text-2xl">🧮</span>
+              </div>
+              <button 
+                onClick={() => setShowHelpModal(true)}
+                className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow hover:bg-gray-100"
+              >
+                <span className="text-3xl">❓</span>
+              </button>
+            </div>
+          </div>
+          <div className="absolute -bottom-3 -left-3 text-4xl transform rotate-12">
+            ✏️
+          </div>
+        </div>
+        
+        {/* 問題設定エリア - 青い枠 */}
+        <div className="bg-white rounded-xl shadow-md mb-4 p-4 border-2 border-blue-400">
+          <div className="flex items-center mb-2">
+            <span className="text-2xl mr-2">📝</span>
+            <h2 className="text-xl font-bold text-blue-600">もんだいの しゅるい</h2>
+          </div>
+          
+          <div className="space-y-4">
+            <div>
+              <div className="text-blue-700">話の種類:</div>
+              <div className="relative bg-yellow-50 rounded-lg border-2 border-yellow-300 p-2">
+                <div className="flex justify-between items-center">
+                  <span>{problemType}</span>
+                  <span className="text-xl">📚</span>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div className="px-6 py-4 relative z-10">
-            <h1 className="text-3xl font-bold text-white drop-shadow-md">モンサクン</h1>
-            <p className="text-white text-lg">算数の文章題を作ろう！</p>
             
-            <div className="absolute -bottom-10 -left-10 w-24 h-24 text-6xl transform rotate-12">
-              ✏️
+            <div>
+              <div className="text-blue-700">数式:</div>
+              <div className="relative bg-green-50 rounded-lg border-2 border-green-300 p-2">
+                <div className="flex justify-between items-center">
+                  <span>{equation}</span>
+                  <span className="text-xl">🔢</span>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div className="flex justify-end p-2">
+            
             <button 
-              onClick={() => setShowHelpModal(true)}
-              className="bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-md hover:shadow-lg transition-all transform hover:scale-105"
+              onClick={handleGenerateProblem}
+              className="w-full p-3 bg-purple-500 hover:bg-purple-600 text-white text-xl font-bold rounded-lg shadow-md transition-colors"
             >
-              <span className="text-2xl">❓</span>
+              問題を作る！
             </button>
           </div>
         </div>
         
-        {/* 問題設定 */}
-        <ProblemSettings 
-          problemType={problemType}
-          equation={equation}
-          onProblemTypeChange={handleProblemTypeChange}
-          onEquationChange={handleEquationChange}
-          onGenerateProblem={handleGenerateProblem}
-        />
+        {/* カードエリア - 緑の枠 */}
+        <div className="bg-white rounded-xl shadow-md mb-4 p-4 border-2 border-green-400">
+          <div className="flex items-center mb-2">
+            <span className="text-2xl mr-2">🎴</span>
+            <h2 className="text-xl font-bold text-green-600">カード</h2>
+          </div>
+          
+          <div 
+            className="bg-green-50 rounded-lg border-2 border-dashed border-green-300 p-2"
+            onDragOver={handleDragOver}
+            onDrop={handleDropOnAvailable}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {availableCards.map((card, idx) => (
+                <div
+                  key={idx}
+                  className="bg-orange-100 rounded-lg p-3 shadow cursor-grab"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, card, idx)}
+                >
+                  <div className="text-gray-800 mb-2">{card.text}</div>
+                  <div className="inline-block px-2 py-1 bg-orange-200 rounded-full text-sm font-bold text-orange-800">
+                    {card.type === '存在文' ? '📦 ' : '🔗 '}{card.type}
+                  </div>
+                </div>
+              ))}
+              {availableCards.length === 0 && (
+                <div className="col-span-full text-center py-4 text-gray-500">
+                  カードをドロップして戻すことができるよ！
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
         
-        {/* カード表示エリア */}
-        <CardArea
-          cards={availableCards}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDrop={handleDropOnAvailable}
-        />
-        
-        {/* 解答スペース */}
-        <AnswerSpace 
-          placedCards={placedCards}
-          onDragOver={handleDragOver}
-          onDrop={handleDropOnSlot}
-          onDragStart={handleDragStart}
-          onRemoveCard={handleRemoveCard}
-          dragOverSlotIndex={dragOverSlotIndex}
-          setDragOverSlotIndex={setDragOverSlotIndex}
-        />
+        {/* 解答スペース - 赤の枠 */}
+        <div className="bg-white rounded-xl shadow-md mb-4 p-4 border-2 border-red-400">
+          <div className="flex items-center mb-2">
+            <span className="text-2xl mr-2">🧩</span>
+            <h2 className="text-xl font-bold text-red-600">答えを作ろう！</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {placedCards.map((card, idx) => (
+              <div 
+                key={idx}
+                className={`p-3 rounded-lg min-h-32 flex items-center justify-center
+                  ${card ? 'bg-white shadow border border-gray-200' : 
+                    idx % 3 === 0 ? 'bg-pink-50 border-2 border-dashed border-pink-300' : 
+                    idx % 3 === 1 ? 'bg-purple-50 border-2 border-dashed border-purple-300' :
+                    'bg-blue-50 border-2 border-dashed border-blue-300'}`}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDropOnSlot(e, idx)}
+              >
+                {card ? (
+                  <div className="relative w-full">
+                    <div className="bg-orange-100 rounded-lg p-3 shadow">
+                      <div className="text-gray-800 mb-2">{card.text}</div>
+                      <div className="inline-block px-2 py-1 bg-orange-200 rounded-full text-sm font-bold text-orange-800">
+                        {card.type === '存在文' ? '📦 ' : '🔗 '}{card.type}
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => handleRemoveCard(idx)}
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full 
+                        flex items-center justify-center hover:bg-red-600 shadow"
+                    >
+                      ✖️
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center">
+                    <span className="text-2xl mb-1">{idx === 0 ? '1️⃣' : idx === 1 ? '2️⃣' : '3️⃣'}</span>
+                    <span className="text-gray-500 text-center text-sm">ここにカードをドロップしてね！</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
         
         {/* 回答チェックボタン */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-4">
           <button 
             onClick={handleCheckAnswer}
-            className="px-10 py-6 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white text-2xl font-bold rounded-2xl shadow-lg transform hover:scale-105 transition-all"
+            className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white text-lg font-bold rounded-lg shadow-md transition-colors"
           >
             <div className="flex items-center">
-              <span className="text-3xl mr-2">✅</span>
+              <span className="text-xl mr-2">✅</span>
               答え合わせをする
             </div>
           </button>

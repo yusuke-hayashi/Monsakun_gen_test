@@ -26,10 +26,10 @@ const Card: FC<CardProps> = ({
 
   return (
     <div 
-      className={`p-4 rounded-xl ${
-        card.type === '存在文' ? 'bg-orange-100 border-l-4 border-orange-500' : 'bg-blue-100 border-l-4 border-blue-500'
-      } shadow-md hover:shadow-lg transition-all transform hover:scale-105 select-none
-        ${isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : ''}
+      className={`p-3 rounded-lg ${
+        card.type === '存在文' ? 'bg-orange-100' : 'bg-orange-100'
+      } shadow-md hover:shadow-lg transition-all select-none
+        ${isSelected ? 'ring-2 ring-blue-500' : ''}
         ${isDraggable ? 'cursor-grab active:cursor-grabbing' : ''}`}
       draggable={isDraggable}
       onDragStart={handleDragStart}
@@ -37,13 +37,13 @@ const Card: FC<CardProps> = ({
       data-card-index={index}
       data-card-type={card.type}
     >
-      <div className="card-content font-medium text-gray-800 text-lg">
+      <div className="card-content text-gray-800 mb-2">
         {card.text}
       </div>
-      <div className={`mt-2 inline-block px-3 py-1 rounded-full text-sm font-bold ${
+      <div className={`inline-block px-2 py-1 rounded-full text-sm font-bold ${
         card.type === '存在文' 
           ? 'bg-orange-200 text-orange-800' 
-          : 'bg-blue-200 text-blue-800'
+          : 'bg-orange-200 text-orange-800'
       }`}>
         {card.type === '存在文' ? '📦 ' : '🔗 '}{card.type}
       </div>
