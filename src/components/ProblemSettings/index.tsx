@@ -19,63 +19,101 @@ const ProblemSettings: FC<ProblemSettingsProps> = ({
   const [showHelp, setShowHelp] = useState(false);
 
   return (
-    <div className="w-full mb-6 p-4 bg-gray-100 rounded-lg shadow">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-xl font-semibold">要求仕様</h2>
-        <button 
-          onClick={() => setShowHelp(!showHelp)}
-          className="p-1 text-blue-500 hover:text-blue-700 focus:outline-none"
-          title="仕様の詳細を表示/非表示"
-        >
-          <span className="text-lg">?</span>
-        </button>
+    <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border-4 border-blue-400">
+      <div className="flex items-center mb-4">
+        <span className="text-3xl mr-2">📝</span>
+        <h2 className="text-2xl font-bold text-blue-600">もんだいの しゅるい</h2>
       </div>
       
       {showHelp && (
-        <div className="mb-4 p-3 bg-white rounded border border-gray-300">
-          <h3 className="font-medium mb-2">算数文章題のルール：</h3>
-          <ul className="list-disc pl-5 text-sm space-y-1">
-            <li><strong>もの：</strong> あわせるはなし、くらべるはなしでは2種類、ふえるはなし、へるはなしでは1種類のものが登場します。</li>
-            <li><strong>文構成：</strong> 2つの存在文(ものがいくつあるか)と1つの関係文(話の種類を決める文)が必要です。</li>
-            <li><strong>文順序：</strong> ふえるはなし、へるはなしでは「存在文、関係文、存在文」の順序にする必要があります。</li>
-            <li><strong>物語種類：</strong> 指定された話の種類に合った関係文を使う必要があります。</li>
-            <li><strong>数字：</strong> 式に含まれる数字をすべて使う必要があります。</li>
+        <div className="mb-6 p-4 bg-yellow-50 rounded-xl border-2 border-yellow-300">
+          <h3 className="font-bold mb-2 text-yellow-800 flex items-center">
+            <span className="text-2xl mr-2">💡</span>
+            算数文章題のルール：
+          </h3>
+          <ul className="space-y-3">
+            <li className="flex items-start">
+              <span className="inline-block bg-yellow-200 rounded-full p-1 mr-2 text-xl">🍎</span>
+              <span className="text-gray-700"><strong>もの：</strong> あわせるはなし、くらべるはなしでは2種類、ふえるはなし、へるはなしでは1種類のものが登場します。</span>
+            </li>
+            <li className="flex items-start">
+              <span className="inline-block bg-yellow-200 rounded-full p-1 mr-2 text-xl">📏</span>
+              <span className="text-gray-700"><strong>文構成：</strong> 2つの存在文(ものがいくつあるか)と1つの関係文(話の種類を決める文)が必要です。</span>
+            </li>
+            <li className="flex items-start">
+              <span className="inline-block bg-yellow-200 rounded-full p-1 mr-2 text-xl">🔄</span>
+              <span className="text-gray-700"><strong>文順序：</strong> ふえるはなし、へるはなしでは「存在文、関係文、存在文」の順序にする必要があります。</span>
+            </li>
+            <li className="flex items-start">
+              <span className="inline-block bg-yellow-200 rounded-full p-1 mr-2 text-xl">📚</span>
+              <span className="text-gray-700"><strong>物語種類：</strong> 指定された話の種類に合った関係文を使う必要があります。</span>
+            </li>
+            <li className="flex items-start">
+              <span className="inline-block bg-yellow-200 rounded-full p-1 mr-2 text-xl">🔢</span>
+              <span className="text-gray-700"><strong>数字：</strong> 式に含まれる数字をすべて使う必要があります。</span>
+            </li>
           </ul>
         </div>
       )}
       
-      <div className="flex flex-wrap gap-4">
-        <div className="flex-1 min-w-fit">
-          <label className="block mb-1 font-medium">話の種類:</label>
-          <select 
-            value={problemType} 
-            onChange={(e) => onProblemTypeChange(e.target.value as ProblemType)}
-            className="w-full p-2 border rounded"
-          >
-            <option value="あわせるはなし">あわせるはなし</option>
-            <option value="ふえるはなし">ふえるはなし</option>
-            <option value="へるはなし">へるはなし</option>
-            <option value="くらべるはなし">くらべるはなし</option>
-          </select>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label className="block mb-2 font-bold text-purple-600 text-lg">話の種類:</label>
+          <div className="relative">
+            <select 
+              value={problemType} 
+              onChange={(e) => onProblemTypeChange(e.target.value as ProblemType)}
+              className="w-full p-3 bg-yellow-50 border-2 border-yellow-400 rounded-xl text-lg focus:ring-4 focus:ring-yellow-200 focus:border-yellow-500 appearance-none"
+            >
+              <option value="あわせるはなし">あわせるはなし</option>
+              <option value="ふえるはなし">ふえるはなし</option>
+              <option value="へるはなし">へるはなし</option>
+              <option value="くらべるはなし">くらべるはなし</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <span className="text-2xl">📚</span>
+            </div>
+          </div>
         </div>
-        <div className="flex-1 min-w-fit">
-          <label className="block mb-1 font-medium">数式:</label>
-          <input 
-            type="text" 
-            value={equation} 
-            onChange={(e) => onEquationChange(e.target.value)}
-            className="w-full p-2 border rounded"
-            placeholder="例: 5 + 3 = 8"
-          />
+        
+        <div>
+          <label className="block mb-2 font-bold text-purple-600 text-lg">数式:</label>
+          <div className="relative">
+            <input 
+              type="text" 
+              value={equation} 
+              onChange={(e) => onEquationChange(e.target.value)}
+              className="w-full p-3 bg-green-50 border-2 border-green-400 rounded-xl text-lg focus:ring-4 focus:ring-green-200 focus:border-green-500"
+              placeholder="例: 5 + 3 = 8"
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <span className="text-2xl">🔢</span>
+            </div>
+          </div>
         </div>
+        
         <div className="flex items-end">
           <button 
             onClick={onGenerateProblem}
-            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition shadow"
+            className="w-full p-4 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white text-xl font-bold rounded-xl shadow-lg transform hover:scale-105 transition-all"
           >
-            問題を生成
+            <div className="flex items-center justify-center">
+              <span className="text-2xl mr-2">🎮</span>
+              問題を作る！
+            </div>
           </button>
         </div>
+      </div>
+      
+      <div className="mt-4 flex justify-end">
+        <button 
+          onClick={() => setShowHelp(!showHelp)}
+          className="flex items-center px-4 py-2 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 rounded-xl transition-colors"
+          title="仕様の詳細を表示/非表示"
+        >
+          <span className="text-xl mr-1">💡</span>
+          <span>{showHelp ? 'ヒントを隠す' : 'ヒントを見る'}</span>
+        </button>
       </div>
     </div>
   );

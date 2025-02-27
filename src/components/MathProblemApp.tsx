@@ -17,6 +17,7 @@ const MathProblemApp: React.FC = () => {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [isDraggingFromPlaced, setIsDraggingFromPlaced] = useState(false);
   const [originSlot, setOriginSlot] = useState<number | null>(null);
+  const [dragOverSlotIndex, setDragOverSlotIndex] = useState<number | null>(null);
   
   // フィードバック状態
   const [feedback, setFeedback] = useState('');
@@ -154,6 +155,7 @@ const MathProblemApp: React.FC = () => {
     setDraggingIndex(null);
     setIsDraggingFromPlaced(false);
     setOriginSlot(null);
+    setDragOverSlotIndex(null);
   };
   
   // 回答をチェックする関数
@@ -171,9 +173,9 @@ const MathProblemApp: React.FC = () => {
     setErrorMessages(errorMessages);
     
     if (isValid) {
-      setFeedback('正解です！素晴らしい文章題ができました。');
+      setFeedback('すごい！せいかいだよ！');
     } else {
-      setFeedback('不正解です。以下の問題を確認してください。');
+      setFeedback('ざんねん！もういちどチャレンジしてみよう！');
     }
   };
   
@@ -183,66 +185,93 @@ const MathProblemApp: React.FC = () => {
   }, []);
   
   return (
-    <div className="flex flex-col items-center p-4 max-w-4xl mx-auto">
-      <div className="w-full flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">算数文章題作成アプリケーション「モンサクン」</h1>
-        <button
-          onClick={() => setShowHelpModal(true)}
-          className="text-blue-500 hover:text-blue-700"
-          title="ヘルプを表示"
-        >
-          <span className="text-lg">ヘルプ</span>
-        </button>
-      </div>
-      
-      {/* 問題設定 */}
-      <ProblemSettings 
-        problemType={problemType}
-        equation={equation}
-        onProblemTypeChange={handleProblemTypeChange}
-        onEquationChange={handleEquationChange}
-        onGenerateProblem={handleGenerateProblem}
-      />
-      
-      {/* カード表示エリア */}
-      <CardArea
-        cards={availableCards}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDrop={handleDropOnAvailable}
-      />
-      
-      {/* 解答スペース */}
-      <AnswerSpace 
-        placedCards={placedCards}
-        onDragOver={handleDragOver}
-        onDrop={handleDropOnSlot}
-        onDragStart={handleDragStart}
-        onRemoveCard={handleRemoveCard}
-      />
-      
-      {/* 回答チェックボタン */}
-      <button 
-        onClick={handleCheckAnswer}
-        className="p-2 bg-green-500 text-white rounded hover:bg-green-600 transition shadow mb-4"
-      >
-        答え合わせ
-      </button>
-      
-      {/* フィードバック */}
-      {feedback && (
-        <Feedback 
-          feedback={feedback}
-          isCorrect={isCorrect}
-          errorMessages={errorMessages}
+    <div className="min-h-screen bg-gradient-to-b from-blue-100 via-purple-50 to-pink-100 py-6 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* 楽しいヘッダー */}
+        <div className="bg-gradient-to-r from-yellow-300 to-orange-400 rounded-2xl shadow-lg mb-6 overflow-hidden relative">
+          <div className="absolute right-0 top-0 h-full w-1/4">
+            <div className="absolute right-4 top-2">
+              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
+                <span className="text-4xl">🧮</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="px-6 py-4 relative z-10">
+            <h1 className="text-3xl font-bold text-white drop-shadow-md">モンサクン</h1>
+            <p className="text-white text-lg">算数の文章題を作ろう！</p>
+            
+            <div className="absolute -bottom-10 -left-10 w-24 h-24 text-6xl transform rotate-12">
+              ✏️
+            </div>
+          </div>
+          
+          <div className="flex justify-end p-2">
+            <button 
+              onClick={() => setShowHelpModal(true)}
+              className="bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-md hover:shadow-lg transition-all transform hover:scale-105"
+            >
+              <span className="text-2xl">❓</span>
+            </button>
+          </div>
+        </div>
+        
+        {/* 問題設定 */}
+        <ProblemSettings 
+          problemType={problemType}
+          equation={equation}
+          onProblemTypeChange={handleProblemTypeChange}
+          onEquationChange={handleEquationChange}
+          onGenerateProblem={handleGenerateProblem}
         />
-      )}
-      
-      {/* ヘルプモーダル */}
-      <HelpModal 
-        isOpen={showHelpModal} 
-        onClose={() => setShowHelpModal(false)} 
-      />
+        
+        {/* カード表示エリア */}
+        <CardArea
+          cards={availableCards}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDrop={handleDropOnAvailable}
+        />
+        
+        {/* 解答スペース */}
+        <AnswerSpace 
+          placedCards={placedCards}
+          onDragOver={handleDragOver}
+          onDrop={handleDropOnSlot}
+          onDragStart={handleDragStart}
+          onRemoveCard={handleRemoveCard}
+          dragOverSlotIndex={dragOverSlotIndex}
+          setDragOverSlotIndex={setDragOverSlotIndex}
+        />
+        
+        {/* 回答チェックボタン */}
+        <div className="flex justify-center mb-8">
+          <button 
+            onClick={handleCheckAnswer}
+            className="px-10 py-6 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white text-2xl font-bold rounded-2xl shadow-lg transform hover:scale-105 transition-all"
+          >
+            <div className="flex items-center">
+              <span className="text-3xl mr-2">✅</span>
+              答え合わせをする
+            </div>
+          </button>
+        </div>
+        
+        {/* フィードバック */}
+        {feedback && (
+          <Feedback 
+            feedback={feedback}
+            isCorrect={isCorrect}
+            errorMessages={errorMessages}
+          />
+        )}
+        
+        {/* ヘルプモーダル */}
+        <HelpModal 
+          isOpen={showHelpModal} 
+          onClose={() => setShowHelpModal(false)} 
+        />
+      </div>
     </div>
   );
 };

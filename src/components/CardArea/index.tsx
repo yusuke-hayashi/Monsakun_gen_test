@@ -11,10 +11,13 @@ interface CardAreaProps {
 
 const CardArea: FC<CardAreaProps> = ({ cards, onDragStart, onDragOver, onDrop }) => {
   return (
-    <div className="w-full mb-6">
-      <h2 className="text-xl font-semibold mb-2">カード</h2>
+    <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border-4 border-green-400">
+      <div className="flex items-center mb-4">
+        <span className="text-3xl mr-2">🎴</span>
+        <h2 className="text-2xl font-bold text-green-600">カード</h2>
+      </div>
       <div 
-        className="flex flex-wrap gap-2 p-4 bg-gray-100 rounded-lg min-h-16 border-2 border-dashed border-gray-300"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-green-50 rounded-xl border-2 border-dashed border-green-300"
         onDragOver={onDragOver}
         onDrop={onDrop}
       >
@@ -27,8 +30,9 @@ const CardArea: FC<CardAreaProps> = ({ cards, onDragStart, onDragOver, onDrop })
           />
         ))}
         {cards.length === 0 && (
-          <div className="w-full text-center text-gray-500 py-4">
-            ここにカードをドロップして戻すことができます
+          <div className="col-span-full text-center py-8">
+            <span className="text-4xl block mb-3">🃏</span>
+            <span className="text-gray-500 text-lg">ここにカードをドロップして戻すことができるよ！</span>
           </div>
         )}
       </div>

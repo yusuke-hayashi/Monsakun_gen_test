@@ -14,6 +14,8 @@ interface AnswerSpaceProps {
     slotIndex: number
   ) => void;
   onRemoveCard: (slotIndex: number) => void;
+  dragOverSlotIndex?: number | null;
+  setDragOverSlotIndex?: (index: number | null) => void;
 }
 
 const AnswerSpace: FC<AnswerSpaceProps> = ({ 
@@ -21,12 +23,17 @@ const AnswerSpace: FC<AnswerSpaceProps> = ({
   onDragOver, 
   onDrop, 
   onDragStart, 
-  onRemoveCard 
+  onRemoveCard,
+  dragOverSlotIndex,
+  setDragOverSlotIndex
 }) => {
   return (
-    <div className="w-full mb-6">
-      <h2 className="text-xl font-semibold mb-2">解答スペース</h2>
-      <div className="flex flex-col md:flex-row gap-4">
+    <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border-4 border-red-400">
+      <div className="flex items-center mb-4">
+        <span className="text-3xl mr-2">🧩</span>
+        <h2 className="text-2xl font-bold text-red-600">答えを作ろう！</h2>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {placedCards.map((card, idx) => (
           <AnswerSlot 
             key={idx}
@@ -36,6 +43,8 @@ const AnswerSpace: FC<AnswerSpaceProps> = ({
             onDrop={onDrop}
             onDragStart={onDragStart}
             onRemove={onRemoveCard}
+            dragOverSlotIndex={dragOverSlotIndex}
+            setDragOverSlotIndex={setDragOverSlotIndex}
           />
         ))}
       </div>
