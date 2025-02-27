@@ -213,41 +213,13 @@ const MathProblemApp: React.FC = () => {
         </div>
         
         {/* 問題設定エリア - 青い枠 */}
-        <div className="bg-white rounded-xl shadow-md mb-4 p-4 border-2 border-blue-400">
-          <div className="flex items-center mb-2">
-            <span className="text-2xl mr-2">📝</span>
-            <h2 className="text-xl font-bold text-blue-600">もんだいの しゅるい</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div>
-              <div className="text-blue-700">話の種類:</div>
-              <div className="relative bg-yellow-50 rounded-lg border-2 border-yellow-300 p-2">
-                <div className="flex justify-between items-center">
-                  <span>{problemType}</span>
-                  <span className="text-xl">📚</span>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <div className="text-blue-700">数式:</div>
-              <div className="relative bg-green-50 rounded-lg border-2 border-green-300 p-2">
-                <div className="flex justify-between items-center">
-                  <span>{equation}</span>
-                  <span className="text-xl">🔢</span>
-                </div>
-              </div>
-            </div>
-            
-            <button 
-              onClick={handleGenerateProblem}
-              className="w-full p-3 bg-purple-500 hover:bg-purple-600 text-white text-xl font-bold rounded-lg shadow-md transition-colors"
-            >
-              問題を作る！
-            </button>
-          </div>
-        </div>
+        <ProblemSettings 
+          problemType={problemType}
+          equation={equation}
+          onProblemTypeChange={handleProblemTypeChange}
+          onEquationChange={handleEquationChange}
+          onGenerateProblem={handleGenerateProblem}
+        />
         
         {/* カードエリア - 緑の枠 */}
         <div className="bg-white rounded-xl shadow-md mb-4 p-4 border-2 border-green-400">
